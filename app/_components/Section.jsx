@@ -9,7 +9,7 @@ const Section = ({ children, iD, className }) => {
     <section
       ref={ref}
       id={iD}
-      className={`${className} flex  py-20 overflow-hidden items-center justify-center  border-b-1  transition-all duration-700 ease-out transform ${
+      className={`${className} flex px-2 py-20 overflow-hidden items-center justify-center  border-b-1  transition-all duration-700 ease-out transform ${
         isVisible ? "  opacity-100 translate-x-0" : "opacity-0 -translate-x-1/2"
       }`}
     >

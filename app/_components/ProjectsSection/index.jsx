@@ -29,7 +29,7 @@ const ProjectsSection = () => {
           </div>
         </div>
 
-        <div className="flex justify-between flex-wrap">
+        <div className="flex justify-between space-y-4 flex-wrap">
           {projects.map((project) => {
             return (
               <ProjectCard
