@@ -174,4 +174,61 @@
     background: white;
     opacity: 70%;
   }
+
+  .slideInFromLeft {
+    animation: slideInFromLeft 1s linear;
+  }
+  .slideInFromRight {
+    animation: slideInFromRight 1.5s linear;
+  }
+
+  @keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 100;
+    }
+  }
+  @keyframes slideInFromRight {
+    0% {
+      transform: translateX(100px);
+      opacity: 0;
+    }
+    50% {
+      transform: translateX(100px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 100;
+    }
+  }
+  .slideInFromBottom {
+    animation: slideInFromBottom 2s linear;
+  }
+  @keyframes slideInFromBottom {
+    0% {
+      transform: translateY(100px);
+      opacity: 0;
+      width: 0;
+    }
+    50% {
+      transform: translateY(100px);
+      opacity: 0;
+      width: 0;
+    }
+    70% {
+      transform: translateY(100px);
+      opacity: 0;
+      width: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 100;
+      width: 100%;
+    }
+  }
 }

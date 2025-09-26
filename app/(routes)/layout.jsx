@@ -8,6 +8,7 @@ import Header from "../_components/Header";
 import Footer from "../_components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import WelcomeMessage from "@/components/WelcomeMessage";
 
 const RoutesLayout = ({ children }) => {
   return (
@@ -18,11 +19,11 @@ const RoutesLayout = ({ children }) => {
         enableSystem
         disableTransitionOnChange
       > */}
-      <div>
+      <WelcomeMessage>
         <Header />
         {children}
         <Footer />
-      </div>
+      </WelcomeMessage>
       <Toaster richColors={true} />
       <ScrollToTopButton />
       {/* </ThemeProvider> */}
