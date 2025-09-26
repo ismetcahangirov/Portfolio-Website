@@ -59,7 +59,7 @@ const ContactSection = () => {
     setFormError((prev) => ({ ...prev, [name]: "" }));
   };
   return (
-    <Section iD={"contact"} className={"group bg-gray-50"}>
+    <Section iD={"contact"} className={"group "}>
       <Container>
         <div>
           <div className="w-max  mb-15 group">

@@ -6,7 +6,7 @@ import Section from "../Section";
 
 const AboutSection = () => {
   return (
-    <Section iD={"about"} className={"group bg-gray-50"}>
+    <Section iD={"about"} className={"group"}>
       <Container>
         <div className="w-max  mb-15 ">
           <h2 className="  uppercase font-bold text-5xl md:text-7xl tracking-wide">
