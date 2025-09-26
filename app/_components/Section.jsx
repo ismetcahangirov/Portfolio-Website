@@ -4,7 +4,7 @@ import React from "react";
 import useInView from "../_hooks/useInView";
 
 const Section = ({ children, iD, className }) => {
-  const { ref, isVisible } = useInView(0.3);
+  const { ref, isVisible } = useInView(0.4);
   return (
     <section
       ref={ref}
