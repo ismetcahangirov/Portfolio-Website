@@ -39,7 +39,7 @@ const Navbar = () => {
       </div>
 
       <div
-        className="sm:hidden absolute inset-x-0 w-full top-21 overflow-hidden transition-all duration-300 ease-in-out flex flex-col space-y-2 bg-white "
+        className="sm:hidden absolute left-0 top-[47px] w-full overflow-hidden transition-all duration-300 ease-in-out flex flex-col space-y-2 bg-white "
         style={{ maxHeight: openMenu ? `${height}px` : "0px" }}
       >
         <div ref={menuRef} className="flex flex-col uppercase">

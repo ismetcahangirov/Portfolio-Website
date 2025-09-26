@@ -18,7 +18,7 @@ const projects = [
 
 const ProjectsSection = () => {
   return (
-    <Section iD={"projects"}>
+    <Section iD={"projects"} className={"select-none"}>
       <Container>
         <div className="group">
           <div className="w-max  mb-15 ">

@@ -5,9 +5,9 @@ export default function TypingAnimation({ arr, className }) {
       <TypingText
         texts={arr}
         className={`${className}`}
-        speed={30}
+        speed={110}
         loop={true}
-        pauseDuration={1500}
+        pauseDuration={1800}
         showCursor={true}
         cursor="_"
         cursorClassName="font-bold text-white"

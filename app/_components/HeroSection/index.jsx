@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative h-screen bg-black -z-20 overflow-hidden"
+      className="relative h-screen bg-black -z-20 overflow-hidden select-none"
     >
       <Container className="h-full  overflow-hidden relative">
         <Image

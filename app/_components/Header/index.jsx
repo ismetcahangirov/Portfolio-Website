@@ -5,9 +5,9 @@ import Navbar from "./navbar";
 
 const Header = () => {
   return (
-    <header className="p-2 sticky top-0 bg-black z-50">
+    <header className="p-3 sticky top-0 bg-black z-50">
       <Container className={"relative flex items-center justify-between px-0"}>
-        <Logo />
+        <Logo width="35px" height="35px" black={false} />
         <Navbar />
       </Container>
     </header>

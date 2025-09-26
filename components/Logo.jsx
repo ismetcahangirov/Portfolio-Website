@@ -7,7 +7,8 @@ const Logo = ({ black = false, width = "35px", height = "35px" }) => {
     <Link href={"/"}>
       <Image
         src={`${black ? "./blackLogo.svg" : "./whiteLogo.svg"}`}
-        className={`w-[${width}] h-[${height}] cursor-pointer`}
+        style={{ width: width, height: height }}
+        className={` cursor-pointer`}
         alt="Logo"
         width={150}
         height={150}

@@ -6,6 +6,7 @@ import ContactMethods from "./ContactMethods";
 import ContactInput from "./ContactInput";
 import { Button } from "@/components/ui/button";
 import Section from "../Section";
+import { toast } from "sonner";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -36,7 +37,8 @@ const ContactSection = () => {
       return;
     }
 
-    console.log(formData);
+    toast.success("Message successfully delivered!");
+
     setFormData({
       name: "",
       email: "",
@@ -57,7 +59,7 @@ const ContactSection = () => {
     setFormError((prev) => ({ ...prev, [name]: "" }));
   };
   return (
-    <Section iD={"contact"} className={"group"}>
+    <Section iD={"contact"} className={"group bg-gray-50"}>
       <Container>
         <div>
           <div className="w-max  mb-15 group">

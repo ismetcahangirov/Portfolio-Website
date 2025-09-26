@@ -50,8 +50,8 @@ const socials = [
 
 const Footer = () => {
   return (
-    <footer className="h-[300px] flex  flex-col space-y-6 justify-center items-center bg-LigtGray">
-      <Logo black={true} width="50px" height="50px" />
+    <footer className="select-none h-[300px] flex  flex-col space-y-6 justify-center items-center bg-LigtGray">
+      <Logo black={true} width="90px" height="90px" />
       <div className="flex items-center gap-3">
         {socials.map((social) => {
           return (
@@ -61,7 +61,7 @@ const Footer = () => {
                 src={social.image}
                 width={50}
                 height={50}
-                className="w-[auto] h-[25px]  grayscale contrast-100 object-cover transition-all duration-500 hover:invert hover:drop-shadow-2xl"
+                className="w-[auto] h-[25px]  grayscale contrast-100 object-cover transition-all duration-350 hover:invert hover:drop-shadow-2xl"
               />
             </Link>
           );
