@@ -1,3 +1,4 @@
+import { getDict } from "@/app/_i18n";
 import Container from "../Container";
 import ProjectWheel from "./ProjectWheel";
 
@@ -10,7 +11,10 @@ function Cross({ className }) {
   );
 }
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ lang }) {
+  const t = getDict(lang);
+  const s = t.projectsSection;
+  const size = lang === "az" ? "text-[clamp(2.3rem,10.6vw,10rem)]" : "text-[clamp(2.9rem,13vw,11.5rem)]";
   return (
     <section id="projects" className="relative scroll-mt-20 overflow-hidden bg-fog pb-24 pt-20 sm:pt-24">
       <Container>
@@ -22,11 +26,11 @@ export default function ProjectsSection() {
 
           <div className="flex items-start justify-between">
             <p className="font-wide text-[12px] font-extrabold uppercase leading-[1.05] tracking-tight sm:text-[14px]">
-              Selected
+              {s.selected[0]}
               <br />
-              work
+              {s.selected[1]}
             </p>
-            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink/50">Click a card to open it</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink/50">{s.hint}</p>
           </div>
 
           <div className="relative mt-6 flex justify-center sm:mt-4">
@@ -37,26 +41,26 @@ export default function ProjectsSection() {
             <h2 className="relative text-center">
               <span
                 aria-hidden="true"
-                className="font-wide text-outline absolute inset-0 translate-x-[0.06em] translate-y-[0.16em] text-[clamp(2.9rem,13vw,11.5rem)] font-black uppercase leading-none tracking-[-0.03em] text-ink/70"
+                className={`font-wide text-outline absolute inset-0 translate-x-[0.06em] translate-y-[0.16em] ${size} font-black uppercase leading-none tracking-[-0.03em] text-ink/70`}
               >
-                Projects
+                {s.title}
               </span>
-              <span className="font-wide relative block text-[clamp(2.9rem,13vw,11.5rem)] font-black uppercase leading-none tracking-[-0.03em]">
-                Projects
+              <span className={`font-wide relative block ${size} font-black uppercase leading-none tracking-[-0.03em]`}>
+                {s.title}
               </span>
             </h2>
           </div>
 
           <div className="mt-12 flex items-end justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.14em] text-ink/60 sm:mt-16 sm:text-[11px]">
-            <span>Ismat Cahangirov</span>
-            <span className="hidden text-center sm:block">Designed, built and deployed solo</span>
-            <span className="text-right">Full stack developer</span>
+            <span>{t.name}</span>
+            <span className="hidden text-center sm:block">{s.middle}</span>
+            <span className="text-right">{s.right}</span>
           </div>
         </div>
       </Container>
 
       <div className="mt-8">
-        <ProjectWheel />
+        <ProjectWheel lang={lang} />
       </div>
     </section>
   );

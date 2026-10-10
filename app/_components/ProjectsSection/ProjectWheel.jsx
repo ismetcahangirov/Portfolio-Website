@@ -3,10 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { projects } from "@/app/_data/projects";
+import { projects as baseProjects } from "@/app/_data/projects";
+import { getDict, getProjects } from "@/app/_i18n";
 
-const cards = [...projects, ...projects];
-const COUNT = cards.length;
+const BASE = baseProjects.length;
+const COUNT = BASE * 2;
 const STEP = 360 / COUNT;
 const AUTO_SPEED = 4.2;
 
@@ -36,7 +37,10 @@ function useWheelGeometry(ref) {
   return geo;
 }
 
-export default function ProjectWheel() {
+export default function ProjectWheel({ lang }) {
+  const t = getDict(lang).wheel;
+  const localized = getProjects(lang);
+  const cards = [...localized, ...localized];
   const stageRef = useRef(null);
   const wheelRef = useRef(null);
   const angle = useRef(0);
@@ -169,13 +173,13 @@ export default function ProjectWheel() {
             <circle cx="100" cy="100" r="96" fill="none" stroke="rgb(14 14 15 / 0.18)" strokeDasharray="1.5 3" />
             <text className="fill-ink/35 font-mono uppercase" style={{ fontSize: 6.2, letterSpacing: 3.2 }}>
               <textPath href="#hub-ring">
-                Full stack • Web • Mobile • Real-time • Full stack • Web • Mobile • Real-time •
+                {t.ring}
               </textPath>
             </text>
           </svg>
           <div className="absolute left-1/2 top-[8%] flex -translate-x-1/2 flex-col items-center gap-1">
             <span className="h-0 w-0 border-x-[5px] border-b-[7px] border-x-transparent border-b-ink" />
-            <span className="font-wide text-[15px] font-black uppercase leading-none">Me</span>
+            <span className="font-wide text-[15px] font-black uppercase leading-none">{t.me}</span>
           </div>
         </div>
 
@@ -185,7 +189,7 @@ export default function ProjectWheel() {
           style={{ top: centerY }}
         >
           {cards.map((p, i) => {
-            const isDuplicate = i >= projects.length;
+            const isDuplicate = i >= BASE;
             const isActive = i === active;
             const dist = Math.min(mod(i - active, COUNT), mod(active - i, COUNT));
             return (
@@ -198,7 +202,7 @@ export default function ProjectWheel() {
                   type="button"
                   tabIndex={isDuplicate ? -1 : 0}
                   aria-hidden={isDuplicate ? "true" : undefined}
-                  aria-label={`Open ${p.name}, ${p.kind}, in a new tab`}
+                  aria-label={t.cardLabel(p.name, p.kind)}
                   onClick={() => openProject(p.href)}
                   onFocus={(e) => e.currentTarget.matches(":focus-visible") && seekTo(i)}
                   className="group absolute block rounded-[20px] bg-ink p-[5px] text-left shadow-[0_24px_50px_-20px_rgb(0_0_0/0.55)] transition-[box-shadow,transform] duration-500 focus-visible:outline-offset-4"
@@ -216,9 +220,6 @@ export default function ProjectWheel() {
                       }`}
                     />
                     <span className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent" />
-                    <span className="absolute left-3 top-3 rounded-full bg-ink/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/80 backdrop-blur">
-                      {String((i % projects.length) + 1).padStart(2, "0")}
-                    </span>
                     <span className="absolute right-3 top-3 inline-flex h-8 w-8 scale-75 items-center justify-center rounded-full bg-signal text-white opacity-0 transition duration-300 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
                       <ArrowUpRight className="h-4 w-4" />
                     </span>
@@ -262,7 +263,7 @@ export default function ProjectWheel() {
             type="button"
             onClick={() => stepBy(-1)}
             className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-ink/20 transition-colors hover:border-ink hover:bg-ink hover:text-white"
-            aria-label="Previous project"
+            aria-label={t.prev}
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -270,7 +271,7 @@ export default function ProjectWheel() {
             type="button"
             onClick={() => stepBy(1)}
             className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-ink/20 transition-colors hover:border-ink hover:bg-ink hover:text-white"
-            aria-label="Next project"
+            aria-label={t.next}
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -279,7 +280,7 @@ export default function ProjectWheel() {
             onClick={() => openProject(project.href)}
             className="group inline-flex h-12 items-center gap-3 rounded-full bg-ink pl-5 pr-1.5 text-[14px] font-semibold text-white transition-colors hover:bg-signal"
           >
-            Open project
+            {t.open}
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink">
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
             </span>

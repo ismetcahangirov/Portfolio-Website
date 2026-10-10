@@ -11,16 +11,19 @@ export default function BrandIcon({ icon, name, className = "", color = "current
       </span>
     );
   }
+  const brand = color === "brand";
   return (
-    <svg
-      role="img"
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      className={className}
-      fill={color === "brand" ? `#${icon.hex}` : color}
-      {...rest}
-    >
-      <path d={icon.path} />
+    <svg role="img" aria-hidden="true" viewBox="0 0 24 24" className={className} {...rest}>
+      <path d={icon.path} fill={brand ? `#${icon.hex}` : color} />
+      {icon.strokePath && (
+        <path
+          d={icon.strokePath}
+          fill="none"
+          stroke={brand ? `#${icon.strokeHex || icon.hex}` : color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+      )}
     </svg>
   );
 }

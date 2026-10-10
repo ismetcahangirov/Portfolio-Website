@@ -3,20 +3,22 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { projects } from "@/app/_data/projects";
+import { getDict, getProjects } from "@/app/_i18n";
 
-const featured = projects.slice(0, 5);
+const INTERVAL = 4500;
 
-export default function FeaturedCard() {
+export default function FeaturedCard({ lang }) {
+  const t = getDict(lang).featured;
+  const featured = getProjects(lang);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const project = featured[index];
 
   useEffect(() => {
     if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setTimeout(() => setIndex((i) => (i + 1) % featured.length), 4500);
+    const id = setTimeout(() => setIndex((i) => (i + 1) % featured.length), INTERVAL);
     return () => clearTimeout(id);
-  }, [index, paused]);
+  }, [index, paused, featured.length]);
 
   const go = (step) => setIndex((i) => (i + step + featured.length) % featured.length);
 
@@ -32,7 +34,7 @@ export default function FeaturedCard() {
         <button
           type="button"
           onClick={() => window.open(project.href, "_blank", "noopener,noreferrer")}
-          aria-label={`Open ${project.name} in a new tab`}
+          aria-label={t.open(project.name)}
           className="group relative block aspect-square w-[46%] shrink-0 overflow-hidden rounded-[20px] bg-ink"
         >
           {featured.map((p, i) => (
@@ -47,15 +49,12 @@ export default function FeaturedCard() {
               }`}
             />
           ))}
-          <span className="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent" />
-          <span className="absolute bottom-2.5 left-2.5 font-mono text-[10px] uppercase tracking-wider text-white/80">
-            {String(index + 1).padStart(2, "0")} / {String(featured.length).padStart(2, "0")}
-          </span>
+          <span className="absolute inset-0 bg-gradient-to-t from-ink/50 to-transparent" />
         </button>
 
         <div className="flex min-w-0 flex-1 flex-col py-1.5 pr-1.5">
           <div className="flex items-start justify-between gap-2">
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink/55">Live project</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink/55">{t.live}</span>
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/60 text-ink">
               <ArrowUpRight className="h-3.5 w-3.5" />
             </span>
@@ -66,23 +65,23 @@ export default function FeaturedCard() {
             </span>
             <span className="mt-1 block text-[13px] leading-snug text-ink/60">{project.kind}</span>
           </p>
-          <div className="mt-auto flex items-center justify-between gap-2 pt-3">
-            <div className="flex flex-1 gap-1" aria-hidden="true">
-              {featured.map((p, i) => (
-                <span
-                  key={p.name}
-                  className={`h-[3px] flex-1 rounded-full transition-colors duration-500 ${
-                    i === index ? "bg-ink" : "bg-ink/15"
-                  }`}
-                />
-              ))}
-            </div>
+          <div className="mt-auto flex items-center justify-between gap-3 pt-3">
+            <span className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-ink/15" aria-hidden="true">
+              <span
+                key={`${index}-${paused}`}
+                className="absolute inset-y-0 left-0 rounded-full bg-ink"
+                style={{
+                  width: paused ? "100%" : "0%",
+                  animation: paused ? "none" : `featured-progress ${INTERVAL}ms linear forwards`,
+                }}
+              />
+            </span>
             <div className="flex gap-1">
               <button
                 type="button"
                 onClick={() => go(-1)}
                 className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-ink/80 text-white transition-colors hover:bg-signal"
-                aria-label="Previous project"
+                aria-label={t.prev}
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -90,7 +89,7 @@ export default function FeaturedCard() {
                 type="button"
                 onClick={() => go(1)}
                 className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-ink/80 text-white transition-colors hover:bg-signal"
-                aria-label="Next project"
+                aria-label={t.next}
               >
                 <ChevronRight className="h-4 w-4" />
               </button>

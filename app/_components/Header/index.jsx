@@ -1,20 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { ArrowUpRight, X } from "lucide-react";
 import Logo from "@/components/Logo";
+import { getDict, locales, localePath } from "@/app/_i18n";
 import Container from "../Container";
 
-const links = [
-  { name: "Home", href: "#home" },
-  { name: "Projects", href: "#projects" },
-  { name: "Stack", href: "#stack" },
-  { name: "About", href: "#about" },
-  { name: "Contact", href: "#contact" },
-];
+const sectionIds = ["home", "projects", "stack", "about", "contact"];
 
-function useBakuClock() {
+function useBakuClock(months) {
   const [now, setNow] = useState(null);
   useEffect(() => {
     setNow(new Date());
@@ -22,25 +16,61 @@ function useBakuClock() {
     return () => clearInterval(id);
   }, []);
   if (!now) return { time: "--:--", date: "" };
-  const time = new Intl.DateTimeFormat("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Asia/Baku",
-  }).format(now);
-  const date = new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "Asia/Baku",
-  }).format(now);
+  const time = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Baku" }).format(now);
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "numeric", year: "numeric", timeZone: "Asia/Baku" })
+      .formatToParts(now)
+      .map((p) => [p.type, p.value])
+  );
+  const date = `${parts.day} ${months[Number(parts.month) - 1]} ${parts.year}`;
   return { time, date };
 }
 
-export default function Header() {
+function LanguageSwitch({ lang, dark, label, className = "" }) {
+  const go = (e, target) => {
+    e.preventDefault();
+    window.location.href = localePath(target) + window.location.hash;
+  };
+  return (
+    <div
+      role="group"
+      aria-label={label}
+      className={`flex items-center rounded-xl p-1 text-[11px] font-semibold tracking-[0.08em] ${
+        dark ? "bg-white/10" : "bg-ink/[0.07]"
+      } ${className}`}
+    >
+      {locales.map((l) => (
+        <a
+          key={l}
+          href={localePath(l)}
+          hrefLang={l}
+          lang={l}
+          aria-current={l === lang ? "true" : undefined}
+          onClick={(e) => go(e, l)}
+          className={`rounded-lg px-2.5 py-1.5 uppercase transition-colors ${
+            l === lang
+              ? dark
+                ? "bg-white text-ink"
+                : "bg-ink text-white"
+              : dark
+                ? "text-white/60 hover:text-white"
+                : "text-ink/55 hover:text-ink"
+          }`}
+        >
+          {l}
+        </a>
+      ))}
+    </div>
+  );
+}
+
+export default function Header({ lang }) {
+  const t = getDict(lang);
+  const links = sectionIds.map((id) => ({ id, name: t.nav[id], href: `#${id}` }));
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("#home");
   const [scrolled, setScrolled] = useState(false);
-  const { time, date } = useBakuClock();
+  const { time, date } = useBakuClock(t.months);
   const dark = active === "#about";
 
   useEffect(() => {
@@ -51,11 +81,9 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const sections = links.map((l) => document.querySelector(l.href)).filter(Boolean);
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
     const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => e.isIntersecting && setActive(`#${e.target.id}`));
-      },
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(`#${e.target.id}`)),
       { rootMargin: "-45% 0px -50% 0px" }
     );
     sections.forEach((s) => io.observe(s));
@@ -81,12 +109,12 @@ export default function Header() {
               : "border border-transparent"
           }`}
         >
-          <Link href="#home" className="flex items-center gap-2.5" aria-label="Ismat Cahangirov, back to top">
+          <a href="#home" className="flex items-center gap-2.5" aria-label={t.header.homeLabel}>
             <Logo className={`h-8 w-8 transition-colors ${dark ? "text-white" : "text-ink"}`} />
-            <span className="font-display text-[15px] font-bold tracking-tight">Cahangirov</span>
-          </Link>
+            <span className="font-display text-[15px] font-bold tracking-tight">{t.header.brand}</span>
+          </a>
 
-          <nav aria-label="Primary" className="hidden md:block">
+          <nav aria-label="Primary" className="hidden lg:block">
             <ul className="flex items-center gap-1">
               {links.map((l) => (
                 <li key={l.href}>
@@ -113,27 +141,28 @@ export default function Header() {
 
           <div className="flex items-center gap-2 sm:gap-3">
             <div
-              className={`hidden border-l pl-3 font-mono text-[11px] leading-tight lg:block ${
+              className={`hidden border-l pl-3 font-mono text-[11px] leading-tight xl:block ${
                 dark ? "border-white/15" : "border-ink/15"
               }`}
             >
-              <div className={dark ? "text-white/45" : "text-ink/45"}>Baku, GMT+4</div>
+              <div className={dark ? "text-white/45" : "text-ink/45"}>{t.header.city}</div>
               <div className={dark ? "text-white" : "text-ink"}>
                 {time} <span className="text-signal">•</span> {date}
               </div>
             </div>
+            <LanguageSwitch lang={lang} dark={dark} label={t.header.language} className="hidden sm:flex" />
             <a
               href="#contact"
-              className={`hidden items-center gap-1.5 rounded-xl px-4 py-2.5 text-[13px] font-semibold transition-colors md:inline-flex ${
+              className={`hidden items-center gap-1.5 rounded-xl px-4 py-2.5 text-[13px] font-semibold transition-colors lg:inline-flex ${
                 dark ? "bg-signal text-white hover:bg-ember" : "bg-ink text-white hover:bg-ember"
               }`}
             >
-              Let&apos;s talk <ArrowUpRight className="h-4 w-4" />
+              {t.header.talk} <ArrowUpRight className="h-4 w-4" />
             </a>
             <button
               type="button"
               onClick={() => setOpen(true)}
-              className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-[12px] font-semibold tracking-[0.12em] md:hidden ${
+              className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-[12px] font-semibold tracking-[0.12em] lg:hidden ${
                 dark ? "glass-dark text-white" : "glass"
               }`}
               aria-expanded={open}
@@ -143,7 +172,7 @@ export default function Header() {
                 <span className={`block h-[1.5px] w-4 ${dark ? "bg-white" : "bg-ink"}`} />
                 <span className={`block h-[1.5px] w-4 ${dark ? "bg-white" : "bg-ink"}`} />
               </span>
-              MENU
+              {t.header.menu}
             </button>
           </div>
         </div>
@@ -153,23 +182,26 @@ export default function Header() {
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
-        aria-label="Menu"
-        className={`fixed inset-0 z-50 flex flex-col bg-ink text-white transition-[opacity,visibility] duration-300 md:hidden ${
+        aria-label={t.header.menuLabel}
+        className={`fixed inset-0 z-50 flex flex-col bg-ink text-white transition-[opacity,visibility] duration-300 lg:hidden ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <div className="flex items-center justify-between px-4 py-5">
+        <div className="flex items-center justify-between gap-3 px-4 py-5">
           <span className="font-mono text-[11px] text-white/50">
-            {time} <span className="text-signal">•</span> Baku
+            {time} <span className="text-signal">•</span> {t.header.cityShort}
           </span>
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15"
-            aria-label="Close menu"
-          >
-            <X className="h-5 w-5" />
-          </button>
+          <div className="flex items-center gap-3">
+            <LanguageSwitch lang={lang} dark label={t.header.language} />
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15"
+              aria-label={t.header.closeMenu}
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
         </div>
         <ul className="flex flex-1 flex-col justify-center gap-2 px-6">
           {links.map((l, i) => (
@@ -181,7 +213,7 @@ export default function Header() {
               <a
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="font-wide block py-1 text-5xl font-extrabold uppercase tracking-tight hover:text-signal"
+                className="font-wide block py-1 text-[clamp(2rem,10vw,3rem)] font-extrabold uppercase leading-tight tracking-tight hover:text-signal"
               >
                 {l.name}
               </a>

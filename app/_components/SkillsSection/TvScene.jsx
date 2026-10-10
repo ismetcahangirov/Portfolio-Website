@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import BrandIcon from "@/components/BrandIcon";
-import { languages, occluder } from "@/app/_data/stack";
+import { screens, occluder } from "@/app/_data/stack";
 
 const pct = (r) => ({ left: `${r.left}%`, top: `${r.top}%`, width: `${r.width}%`, height: `${r.height}%` });
 
@@ -56,7 +56,7 @@ function Screen({ lang, on, delay }) {
   );
 }
 
-export default function TvScene() {
+export default function TvScene({ alt }) {
   const ref = useRef(null);
   const [on, setOn] = useState(false);
 
@@ -79,22 +79,24 @@ export default function TvScene() {
   return (
     <div
       ref={ref}
-      className="relative mx-auto aspect-[928/1152] w-full max-w-[620px] [mask-image:radial-gradient(ellipse_50%_48%_at_50%_52%,#000_80%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_50%_48%_at_50%_52%,#000_80%,transparent_100%)]"
+      className="relative mx-auto aspect-[928/1152] w-full max-w-[620px] select-none [mask-image:radial-gradient(ellipse_50%_48%_at_50%_52%,#000_80%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_50%_48%_at_50%_52%,#000_80%,transparent_100%)]"
     >
       <Image
         src="/scene/stack-tv.jpg"
-        alt="Faceless figure in a black helmet with a red visor sitting on a stack of vintage TVs"
+        alt={alt}
         fill
+        draggable={false}
         sizes="(min-width: 1024px) 620px, 100vw"
-        className="object-cover brightness-[1.07]"
+        className="pointer-events-none object-cover brightness-[1.07]"
       />
-      {languages.map((lang, i) => (
+      {screens.map((lang, i) => (
         <Screen key={lang.name} lang={lang} on={on} delay={180 + i * 160} />
       ))}
       <Image
         src="/scene/stack-tv-occluder.png"
         alt=""
         aria-hidden="true"
+        draggable={false}
         width={153}
         height={395}
         className="pointer-events-none absolute max-w-none brightness-[1.07]"
