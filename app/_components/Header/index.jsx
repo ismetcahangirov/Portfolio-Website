@@ -1,17 +1,202 @@
-import React from "react";
-import Container from "../Container";
-import Logo from "@/components/Logo";
-import Navbar from "./navbar";
+"use client";
 
-const Header = () => {
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowUpRight, X } from "lucide-react";
+import Logo from "@/components/Logo";
+import Container from "../Container";
+
+const links = [
+  { name: "Home", href: "#home" },
+  { name: "Projects", href: "#projects" },
+  { name: "Stack", href: "#stack" },
+  { name: "About", href: "#about" },
+  { name: "Contact", href: "#contact" },
+];
+
+function useBakuClock() {
+  const [now, setNow] = useState(null);
+  useEffect(() => {
+    setNow(new Date());
+    const id = setInterval(() => setNow(new Date()), 30_000);
+    return () => clearInterval(id);
+  }, []);
+  if (!now) return { time: "--:--", date: "" };
+  const time = new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Asia/Baku",
+  }).format(now);
+  const date = new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "Asia/Baku",
+  }).format(now);
+  return { time, date };
+}
+
+export default function Header() {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("#home");
+  const [scrolled, setScrolled] = useState(false);
+  const { time, date } = useBakuClock();
+  const dark = active === "#about";
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sections = links.map((l) => document.querySelector(l.href)).filter(Boolean);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.isIntersecting && setActive(`#${e.target.id}`));
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach((s) => io.observe(s));
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
-    <header className="p-3 sticky top-0 bg-black z-50">
-      <Container className={"relative flex items-center justify-between px-0"}>
-        <Logo width="35px" height="35px" black={false} />
-        <Navbar />
+    <header className="fixed inset-x-0 top-0 z-50">
+      <Container>
+        <div
+          className={`mt-3 flex items-center justify-between gap-4 rounded-2xl px-3 py-2.5 transition-all duration-500 sm:px-4 ${
+            scrolled
+              ? dark
+                ? "glass-dark text-white"
+                : "glass shadow-[0_8px_30px_-12px_rgb(0_0_0/0.25)]"
+              : "border border-transparent"
+          }`}
+        >
+          <Link href="#home" className="flex items-center gap-2.5" aria-label="Ismat Cahangirov, back to top">
+            <Logo className={`h-8 w-8 transition-colors ${dark ? "text-white" : "text-ink"}`} />
+            <span className="font-display text-[15px] font-bold tracking-tight">Cahangirov</span>
+          </Link>
+
+          <nav aria-label="Primary" className="hidden md:block">
+            <ul className="flex items-center gap-1">
+              {links.map((l) => (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    aria-current={active === l.href ? "true" : undefined}
+                    className={`relative flex flex-col items-center px-3 py-1.5 text-[14px] font-medium transition-colors ${
+                      dark
+                        ? "text-white/60 hover:text-white aria-[current]:text-white"
+                        : "text-ink/70 hover:text-ink aria-[current]:text-ink"
+                    }`}
+                  >
+                    {l.name}
+                    <span
+                      className={`absolute -bottom-0.5 h-1 w-1 rounded-full bg-signal transition-all duration-300 ${
+                        active === l.href ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                      }`}
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div
+              className={`hidden border-l pl-3 font-mono text-[11px] leading-tight lg:block ${
+                dark ? "border-white/15" : "border-ink/15"
+              }`}
+            >
+              <div className={dark ? "text-white/45" : "text-ink/45"}>Baku, GMT+4</div>
+              <div className={dark ? "text-white" : "text-ink"}>
+                {time} <span className="text-signal">•</span> {date}
+              </div>
+            </div>
+            <a
+              href="#contact"
+              className={`hidden items-center gap-1.5 rounded-xl px-4 py-2.5 text-[13px] font-semibold transition-colors md:inline-flex ${
+                dark ? "bg-signal text-white hover:bg-ember" : "bg-ink text-white hover:bg-ember"
+              }`}
+            >
+              Let&apos;s talk <ArrowUpRight className="h-4 w-4" />
+            </a>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-[12px] font-semibold tracking-[0.12em] md:hidden ${
+                dark ? "glass-dark text-white" : "glass"
+              }`}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+            >
+              <span className="flex flex-col gap-[3px]" aria-hidden="true">
+                <span className={`block h-[1.5px] w-4 ${dark ? "bg-white" : "bg-ink"}`} />
+                <span className={`block h-[1.5px] w-4 ${dark ? "bg-white" : "bg-ink"}`} />
+              </span>
+              MENU
+            </button>
+          </div>
+        </div>
       </Container>
+
+      <div
+        id="mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu"
+        className={`fixed inset-0 z-50 flex flex-col bg-ink text-white transition-[opacity,visibility] duration-300 md:hidden ${
+          open ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+      >
+        <div className="flex items-center justify-between px-4 py-5">
+          <span className="font-mono text-[11px] text-white/50">
+            {time} <span className="text-signal">•</span> Baku
+          </span>
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15"
+            aria-label="Close menu"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        <ul className="flex flex-1 flex-col justify-center gap-2 px-6">
+          {links.map((l, i) => (
+            <li
+              key={l.href}
+              className={`transition-all duration-500 ${open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+              style={{ transitionDelay: open ? `${80 + i * 50}ms` : "0ms" }}
+            >
+              <a
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="font-wide block py-1 text-5xl font-extrabold uppercase tracking-tight hover:text-signal"
+              >
+                {l.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="px-6 pb-8 font-mono text-[12px] text-white/50">
+          <a href="mailto:cahangirovismat@gmail.com" className="block py-1 hover:text-white">
+            cahangirovismat@gmail.com
+          </a>
+          <a href="tel:+994552972759" className="block py-1 hover:text-white">
+            +994 55 297 27 59
+          </a>
+        </div>
+      </div>
     </header>
   );
-};
-
-export default Header;
+}

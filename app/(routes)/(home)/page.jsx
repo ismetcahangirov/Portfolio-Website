@@ -1,20 +1,17 @@
-import AboutSection from "@/app/_components/AboutSection";
-import ContactSection from "@/app/_components/ContactSection";
 import Hero from "@/app/_components/HeroSection";
 import ProjectsSection from "@/app/_components/ProjectsSection";
 import SkillsSection from "@/app/_components/SkillsSection";
-import React from "react";
+import AboutSection from "@/app/_components/AboutSection";
+import ContactSection from "@/app/_components/ContactSection";
 
-const HomePage = () => {
+export default function HomePage() {
   return (
-    <main className="min-h-screen">
+    <main>
       <Hero />
-      <AboutSection />
-      <SkillsSection />
-      <ContactSection />
       <ProjectsSection />
+      <SkillsSection />
+      <AboutSection />
+      <ContactSection />
     </main>
   );
-};
-
-export default HomePage;
+}

@@ -1,74 +1,46 @@
+import { ArrowUp } from "lucide-react";
 import Logo from "@/components/Logo";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import Container from "../Container";
 
-const socials = [
-  {
-    name: "TikTok",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Ionicons_logo-tiktok.svg/2048px-Ionicons_logo-tiktok.svg.png",
-    href: "https://www.tiktok.com/@yourusername",
-  },
-  {
-    name: "Instagram",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/CIS-A2K_Instagram_Icon_%28Black%29.svg/2048px-CIS-A2K_Instagram_Icon_%28Black%29.svg.png",
-    href: "https://www.instagram.com/yourusername",
-  },
-  {
-    name: "Facebook",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Facebook_icon_%28black%29.svg/2048px-Facebook_icon_%28black%29.svg.png",
-    href: "https://www.facebook.com/yourusername",
-  },
-  {
-    name: "Threads",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Threads_%28app%29_logo.svg/2048px-Threads_%28app%29_logo.svg.png",
-    href: "https://www.threads.net/@yourusername",
-  },
-  {
-    name: "X (Twitter)",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/0/01/X-Logo-Round-Color.png",
-    href: "https://x.com/yourusername",
-  },
-  {
-    name: "YouTube",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/YouTube_dark_icon_%282017%29.svg/2560px-YouTube_dark_icon_%282017%29.svg.png",
-    href: "https://www.youtube.com/@yourusername",
-  },
-  {
-    name: "LinkedIn",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/LinkedIn_logo_In-Black.svg/1200px-LinkedIn_logo_In-Black.svg.png",
-    href: "https://www.linkedin.com/in/yourusername",
-  },
-];
-
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="select-none h-[300px] flex  flex-col space-y-6 justify-center items-center bg-LigtGray">
-      <Logo black={true} width="90px" height="90px" />
-      <div className="flex items-center gap-3">
-        {socials.map((social) => {
-          return (
-            <Link key={social.name} href={social.href}>
-              <Image
-                alt={social.name}
-                src={social.image}
-                width={50}
-                height={50}
-                className="w-[auto] h-[25px]  grayscale contrast-100 object-cover transition-all duration-350 hover:invert hover:drop-shadow-2xl"
-              />
-            </Link>
-          );
-        })}
-      </div>
+    <footer className="relative overflow-hidden bg-ink text-white">
+      <Container className="pt-16">
+        <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+          <div className="flex items-center gap-3">
+            <Logo className="h-10 w-10 text-white" />
+            <div>
+              <p className="font-display text-[17px] font-bold tracking-tight">Ismat Cahangirov</p>
+              <p className="text-[13px] text-white/50">Full stack developer, Baku</p>
+            </div>
+          </div>
+          <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2 text-[14px] text-white/60">
+            <a href="#projects" className="hover:text-white">Projects</a>
+            <a href="#stack" className="hover:text-white">Stack</a>
+            <a href="#about" className="hover:text-white">About</a>
+            <a href="#contact" className="hover:text-white">Contact</a>
+            <a href="https://github.com/ismetcahangirov" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+              GitHub
+            </a>
+          </nav>
+          <a
+            href="#home"
+            className="inline-flex items-center gap-2 self-start rounded-full border border-white/15 px-4 py-2.5 text-[13px] font-medium transition-colors hover:border-signal hover:bg-signal md:self-auto"
+          >
+            Back to top <ArrowUp className="h-4 w-4" />
+          </a>
+        </div>
+      </Container>
+      <p
+        aria-hidden="true"
+        className="font-wide text-outline mt-10 select-none whitespace-nowrap text-center text-[15.5vw] font-black uppercase leading-[0.78] tracking-[-0.04em] text-white/20 lg:text-[12.4vw]"
+      >
+        Cahangirov
+      </p>
+      <Container className="flex items-center justify-between border-t border-white/10 py-5 font-mono text-[11px] uppercase tracking-[0.12em] text-white/40">
+        <span>© {new Date().getFullYear()} Ismat Cahangirov</span>
+        <span>Built with Next.js</span>
+      </Container>
     </footer>
   );
-};
-
-export default Footer;
+}
