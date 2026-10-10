@@ -41,7 +41,7 @@ export async function generateMetadata({ params }) {
   const { lang } = await params;
   const t = getDict(lang);
   return {
-    metadataBase: new URL("https://www.ismatcahangirov.com"),
+    metadataBase: new URL("https://ismatcahangirov.vercel.app"),
     title: t.meta.title,
     description: t.meta.description,
     icons: { icon: "/logo.svg" },
