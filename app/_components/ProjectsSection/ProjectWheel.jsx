@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { projects as baseProjects } from "@/app/_data/projects";
 import { getDict, getProjects } from "@/app/_i18n";
+import useInViewport from "@/components/useInViewport";
 
 const BASE = baseProjects.length;
 const COUNT = BASE * 2;
@@ -51,19 +52,54 @@ export default function ProjectWheel({ lang }) {
   const suppressClick = useRef(false);
   const [active, setActive] = useState(0);
   const { cardW, cardH, radius, ready } = useWheelGeometry(stageRef);
+  const inView = useInViewport(stageRef);
 
   const hubRadius = Math.round(radius * 0.56);
   const centerY = 36 + cardH / 2 + radius;
   const stageH = Math.round(centerY - hubRadius * 0.45);
 
-  const syncActive = useCallback(() => {
-    const idx = mod(Math.round(-angle.current / STEP), COUNT);
-    setActive((prev) => (prev === idx ? prev : idx));
+  const anim = useRef(null);
+  const animFrom = useRef(0);
+  const physics = useRef(0);
+  const reduceMotion = useRef(false);
+
+  const readAngle = useCallback(() => {
+    const a = anim.current;
+    if (!a) return angle.current;
+    return animFrom.current - ((a.currentTime || 0) / 1000) * AUTO_SPEED;
   }, []);
 
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let raf;
+  const syncActive = useCallback(() => {
+    const idx = mod(Math.round(-readAngle() / STEP), COUNT);
+    setActive((prev) => (prev === idx ? prev : idx));
+  }, [readAngle]);
+
+  const applyAngle = useCallback(() => {
+    if (wheelRef.current) wheelRef.current.style.transform = `rotate(${angle.current}deg)`;
+  }, []);
+
+  const stopAuto = useCallback(() => {
+    if (!anim.current) return;
+    angle.current = readAngle();
+    anim.current.cancel();
+    anim.current = null;
+    applyAngle();
+  }, [readAngle, applyAngle]);
+
+  const startAuto = useCallback(() => {
+    const el = wheelRef.current;
+    if (!el || anim.current || reduceMotion.current || !el.animate) return;
+    animFrom.current = angle.current;
+    anim.current = el.animate(
+      [{ transform: `rotate(${angle.current}deg)` }, { transform: `rotate(${angle.current - 360}deg)` }],
+      { duration: (360 / AUTO_SPEED) * 1000, iterations: Infinity }
+    );
+    if (hovering.current) anim.current.pause();
+  }, []);
+
+  const runPhysics = useCallback(() => {
+    if (physics.current) return;
+    stopAuto();
     let last = performance.now();
     const tick = (now) => {
       const dt = Math.min(0.05, (now - last) / 1000);
@@ -77,41 +113,75 @@ export default function ProjectWheel({ lang }) {
           angle.current = target.current;
           target.current = null;
         }
+      } else if (Math.abs(velocity.current) > 0.5) {
+        angle.current += velocity.current * dt;
+        velocity.current *= Math.pow(0.04, dt);
       } else {
-        if (Math.abs(velocity.current) > 0.5) {
-          angle.current += velocity.current * dt;
-          velocity.current *= Math.pow(0.04, dt);
-        } else if (!hovering.current && !reduce) {
-          angle.current -= AUTO_SPEED * dt;
-        }
+        velocity.current = 0;
+        physics.current = 0;
+        applyAngle();
+        syncActive();
+        startAuto();
+        return;
       }
-      if (wheelRef.current) wheelRef.current.style.transform = `rotate(${angle.current}deg)`;
+      applyAngle();
       syncActive();
-      raf = requestAnimationFrame(tick);
+      physics.current = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [syncActive]);
+    physics.current = requestAnimationFrame(tick);
+  }, [stopAuto, startAuto, applyAngle, syncActive]);
+
+  useEffect(() => {
+    reduceMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+
+  useEffect(() => {
+    if (!inView) {
+      stopAuto();
+      return;
+    }
+    applyAngle();
+    if (!physics.current) startAuto();
+    const id = setInterval(syncActive, 250);
+    return () => {
+      clearInterval(id);
+      stopAuto();
+    };
+  }, [inView, startAuto, stopAuto, applyAngle, syncActive]);
+
+  useEffect(
+    () => () => {
+      cancelAnimationFrame(physics.current);
+      physics.current = 0;
+    },
+    []
+  );
 
   const seekTo = (index) => {
+    stopAuto();
     const base = -index * STEP;
     const turns = Math.round((angle.current - base) / 360);
     target.current = base + turns * 360;
     velocity.current = 0;
+    runPhysics();
   };
 
   const stepBy = (dir) => {
+    stopAuto();
     const current = Math.round(-angle.current / STEP);
     target.current = -(current + dir) * STEP;
     velocity.current = 0;
+    runPhysics();
   };
 
   const onPointerDown = (e) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
+    stopAuto();
     drag.current = { x: e.clientX, lastX: e.clientX, lastT: performance.now(), moved: 0, v: 0, id: e.pointerId };
     target.current = null;
     velocity.current = 0;
     suppressClick.current = false;
+    runPhysics();
   };
 
   const onPointerMove = (e) => {
@@ -139,6 +209,16 @@ export default function ProjectWheel({ lang }) {
     drag.current = null;
   };
 
+  const onEnter = () => {
+    hovering.current = true;
+    anim.current?.pause();
+  };
+
+  const onLeave = () => {
+    hovering.current = false;
+    anim.current?.play();
+  };
+
   const project = cards[active];
 
   return (
@@ -151,8 +231,8 @@ export default function ProjectWheel({ lang }) {
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
-        onMouseEnter={() => (hovering.current = true)}
-        onMouseLeave={() => (hovering.current = false)}
+        onMouseEnter={onEnter}
+        onMouseLeave={onLeave}
         onClickCapture={(e) => {
           if (suppressClick.current) {
             e.preventDefault();
@@ -166,7 +246,11 @@ export default function ProjectWheel({ lang }) {
           className="pointer-events-none absolute left-1/2"
           style={{ top: centerY - hubRadius, width: hubRadius * 2, height: hubRadius * 2, marginLeft: -hubRadius }}
         >
-          <svg viewBox="0 0 200 200" className="h-full w-full animate-[spin-slow_60s_linear_infinite]">
+          <div
+            className="h-full w-full animate-[spin-slow_60s_linear_infinite] will-change-transform"
+            style={{ animationPlayState: inView ? "running" : "paused" }}
+          >
+          <svg viewBox="0 0 200 200" className="h-full w-full">
             <defs>
               <path id="hub-ring" d="M100,100 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0" />
             </defs>
@@ -177,6 +261,7 @@ export default function ProjectWheel({ lang }) {
               </textPath>
             </text>
           </svg>
+          </div>
           <div className="absolute left-1/2 top-[8%] flex -translate-x-1/2 flex-col items-center gap-1">
             <span className="h-0 w-0 border-x-[5px] border-b-[7px] border-x-transparent border-b-ink" />
             <span className="font-wide text-[15px] font-black uppercase leading-none">{t.me}</span>
@@ -185,12 +270,11 @@ export default function ProjectWheel({ lang }) {
 
         <div
           ref={wheelRef}
-          className={`absolute left-1/2 h-0 w-0 transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
+          className={`absolute left-1/2 h-0 w-0 transition-opacity duration-700 will-change-transform ${ready ? "opacity-100" : "opacity-0"}`}
           style={{ top: centerY }}
         >
           {cards.map((p, i) => {
             const isDuplicate = i >= BASE;
-            const isActive = i === active;
             const dist = Math.min(mod(i - active, COUNT), mod(active - i, COUNT));
             return (
               <div
@@ -215,9 +299,7 @@ export default function ProjectWheel({ lang }) {
                       fill
                       draggable={false}
                       sizes="(min-width: 1024px) 400px, 60vw"
-                      className={`object-cover object-top transition duration-700 group-hover:scale-[1.04] ${
-                        isActive ? "" : "grayscale-[0.35]"
-                      }`}
+                      className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
                     />
                     <span className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent" />
                     <span className="absolute right-3 top-3 inline-flex h-8 w-8 scale-75 items-center justify-center rounded-full bg-signal text-white opacity-0 transition duration-300 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">

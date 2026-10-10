@@ -7,7 +7,7 @@ export default function AboutSection({ lang }) {
     <section id="about" className="relative scroll-mt-20 overflow-hidden bg-ink py-24 text-white sm:py-32">
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -right-40 top-10 h-[520px] w-[520px] rounded-full bg-signal/20 blur-[140px]"
+        className="pointer-events-none absolute -right-60 -top-20 h-[800px] w-[800px] bg-[radial-gradient(circle,rgb(227_32_47/0.2)_0%,rgb(227_32_47/0.06)_40%,transparent_70%)]"
       />
       <Container className="relative">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">

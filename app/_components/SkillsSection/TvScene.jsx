@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import BrandIcon from "@/components/BrandIcon";
+import useInViewport from "@/components/useInViewport";
 import { screens, occluder } from "@/app/_data/stack";
 
 const pct = (r) => ({ left: `${r.left}%`, top: `${r.top}%`, width: `${r.width}%`, height: `${r.height}%` });
@@ -18,17 +19,16 @@ function Screen({ lang, on, delay }) {
       aria-label={lang.name}
     >
       <div
-        className="absolute inset-0 transition-[transform,opacity,filter] ease-out"
+        className="absolute inset-0 transition-[transform,opacity] ease-out"
         style={{
           transform: on ? "scale(1, 1)" : "scale(1, 0.02)",
           opacity: on ? 1 : 0,
-          filter: on ? "brightness(1)" : "brightness(3)",
           transitionDuration: "650ms",
           transitionDelay: `${delay}ms`,
         }}
       >
         <div
-          className="absolute inset-0 animate-[crt-flicker_5s_steps(1)_infinite]"
+          className="absolute inset-0"
           style={{ background: `radial-gradient(ellipse at ${start ? "22%" : "50%"} 50%, ${color}55 0%, ${color}18 45%, #050506 85%)` }}
         />
         <div
@@ -48,8 +48,7 @@ function Screen({ lang, on, delay }) {
             {lang.name}
           </span>
         </div>
-        <div className="crt-lines absolute inset-0 mix-blend-overlay" />
-        <div className="absolute inset-x-0 top-0 h-1/4 animate-[crt-scan_4.5s_linear_infinite] bg-gradient-to-b from-transparent via-white/10 to-transparent" />
+        <div className="crt-lines absolute inset-0" />
         <div className="absolute inset-0 shadow-[inset_0_0_18cqw_rgb(0_0_0/0.85)]" />
       </div>
     </div>
@@ -58,48 +57,34 @@ function Screen({ lang, on, delay }) {
 
 export default function TvScene({ alt }) {
   const ref = useRef(null);
+  const live = useInViewport(ref);
   const [on, setOn] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setOn(true);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.35 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    if (live) setOn(true);
+  }, [live]);
 
   return (
-    <div
-      ref={ref}
-      className="relative mx-auto aspect-[928/1152] w-full max-w-[620px] select-none [mask-image:radial-gradient(ellipse_50%_48%_at_50%_52%,#000_80%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_50%_48%_at_50%_52%,#000_80%,transparent_100%)]"
-    >
+    <div ref={ref} className="relative mx-auto aspect-[928/1152] w-full max-w-[620px] select-none">
       <Image
-        src="/scene/stack-tv.jpg"
+        src="/scene/stack-tv-lit.jpg"
         alt={alt}
         fill
         draggable={false}
         sizes="(min-width: 1024px) 620px, 100vw"
-        className="pointer-events-none object-cover brightness-[1.07]"
+        className="pointer-events-none object-cover [mask-image:radial-gradient(ellipse_50%_48%_at_50%_52%,#000_80%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_50%_48%_at_50%_52%,#000_80%,transparent_100%)]"
       />
       {screens.map((lang, i) => (
         <Screen key={lang.name} lang={lang} on={on} delay={180 + i * 160} />
       ))}
       <Image
-        src="/scene/stack-tv-occluder.png"
+        src="/scene/stack-tv-occluder-lit.png"
         alt=""
         aria-hidden="true"
         draggable={false}
         width={153}
         height={395}
-        className="pointer-events-none absolute max-w-none brightness-[1.07]"
+        className="pointer-events-none absolute max-w-none"
         style={pct(occluder)}
       />
     </div>

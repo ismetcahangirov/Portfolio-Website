@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowUpRight, X } from "lucide-react";
 import Logo from "@/components/Logo";
 import { getDict, locales, localePath } from "@/app/_i18n";
@@ -26,10 +27,16 @@ function useBakuClock(months) {
   return { time, date };
 }
 
-function LanguageSwitch({ lang, dark, label, className = "" }) {
+function LanguageSwitch({ lang, dark, label, className = "", onSwitch }) {
+  const router = useRouter();
+  useEffect(() => {
+    locales.filter((l) => l !== lang).forEach((l) => router.prefetch(localePath(l)));
+  }, [lang, router]);
   const go = (e, target) => {
     e.preventDefault();
-    window.location.href = localePath(target) + window.location.hash;
+    onSwitch?.();
+    if (target === lang) return;
+    router.push(localePath(target) + window.location.hash, { scroll: false });
   };
   return (
     <div
@@ -192,7 +199,7 @@ export default function Header({ lang }) {
             {time} <span className="text-signal">•</span> {t.header.cityShort}
           </span>
           <div className="flex items-center gap-3">
-            <LanguageSwitch lang={lang} dark label={t.header.language} />
+            <LanguageSwitch lang={lang} dark label={t.header.language} onSwitch={() => setOpen(false)} />
             <button
               type="button"
               onClick={() => setOpen(false)}

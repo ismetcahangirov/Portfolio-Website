@@ -61,15 +61,15 @@
     -webkit-text-stroke: 1.5px currentColor;
   }
   .glass {
-    background: rgb(255 255 255 / 0.28);
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    background: rgb(232 232 231 / 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgb(255 255 255 / 0.45);
   }
   .glass-dark {
-    background: rgb(14 14 15 / 0.42);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgb(14 14 15 / 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgb(255 255 255 / 0.12);
   }
   .notebook {
@@ -90,31 +90,12 @@
     }
   }
   .crt-lines {
-    background-image: repeating-linear-gradient(180deg, rgb(255 255 255 / 0.06) 0, rgb(255 255 255 / 0.06) 1px, transparent 1px, transparent 3px);
+    background-image: repeating-linear-gradient(180deg, rgb(0 0 0 / 0.28) 0, rgb(0 0 0 / 0.28) 1px, transparent 1px, transparent 3px);
   }
-}
-
-@keyframes crt-flicker {
-  0%, 100% { opacity: 1; }
-  46% { opacity: 0.94; }
-  48% { opacity: 0.86; }
-  50% { opacity: 0.97; }
-}
-
-@keyframes crt-scan {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(400%); }
 }
 
 @keyframes spin-slow {
   to { transform: rotate(360deg); }
 }
 
-@keyframes caret {
-  50% { opacity: 0; }
-}
 
-@keyframes featured-progress {
-  from { width: 0%; }
-  to { width: 100%; }
-}

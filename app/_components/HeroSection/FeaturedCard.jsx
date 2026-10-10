@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { getDict, getProjects } from "@/app/_i18n";
+import useInViewport from "@/components/useInViewport";
 
 const INTERVAL = 4500;
 
@@ -12,19 +13,22 @@ export default function FeaturedCard({ lang }) {
   const featured = getProjects(lang);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const ref = useRef(null);
+  const visible = useInViewport(ref, "0px");
   const project = featured[index];
 
   useEffect(() => {
-    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (paused || !visible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = setTimeout(() => setIndex((i) => (i + 1) % featured.length), INTERVAL);
     return () => clearTimeout(id);
-  }, [index, paused, featured.length]);
+  }, [index, paused, visible, featured.length]);
 
   const go = (step) => setIndex((i) => (i + step + featured.length) % featured.length);
 
   return (
     <div
-      className="glass relative w-full max-w-[400px] rounded-[26px] p-2.5 shadow-[0_20px_50px_-25px_rgb(0_0_0/0.35)]"
+      ref={ref}
+      className="relative w-full max-w-[400px] rounded-[26px] border border-white/60 bg-white/45 p-2.5 shadow-[0_20px_50px_-25px_rgb(0_0_0/0.35)]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
@@ -44,7 +48,7 @@ export default function FeaturedCard({ lang }) {
               alt=""
               fill
               sizes="190px"
-              className={`object-cover object-left-top transition-all duration-700 group-hover:scale-105 ${
+              className={`object-cover object-left-top transition-[opacity,transform] duration-700 group-hover:scale-105 ${
                 i === index ? "opacity-100" : "opacity-0"
               }`}
             />
@@ -65,17 +69,7 @@ export default function FeaturedCard({ lang }) {
             </span>
             <span className="mt-1 block text-[13px] leading-snug text-ink/60">{project.kind}</span>
           </p>
-          <div className="mt-auto flex items-center justify-between gap-3 pt-3">
-            <span className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-ink/15" aria-hidden="true">
-              <span
-                key={`${index}-${paused}`}
-                className="absolute inset-y-0 left-0 rounded-full bg-ink"
-                style={{
-                  width: paused ? "100%" : "0%",
-                  animation: paused ? "none" : `featured-progress ${INTERVAL}ms linear forwards`,
-                }}
-              />
-            </span>
+          <div className="mt-auto flex items-center justify-end gap-3 pt-3">
             <div className="flex gap-1">
               <button
                 type="button"
