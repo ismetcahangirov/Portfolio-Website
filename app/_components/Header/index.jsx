@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowUpRight, X } from "lucide-react";
+import { telHref } from "@/lib/contact-defaults";
 import Logo from "@/components/Logo";
 import { getDict, locales, localePath } from "@/app/_i18n";
 import Container from "../Container";
@@ -71,7 +72,7 @@ function LanguageSwitch({ lang, dark, label, className = "", onSwitch }) {
   );
 }
 
-export default function Header({ lang }) {
+export default function Header({ lang, contact }) {
   const t = getDict(lang);
   const links = sectionIds.map((id) => ({ id, name: t.nav[id], href: `#${id}` }));
   const [open, setOpen] = useState(false);
@@ -228,11 +229,11 @@ export default function Header({ lang }) {
           ))}
         </ul>
         <div className="px-6 pb-8 font-mono text-[12px] text-white/50">
-          <a href="mailto:cahangirovismat@gmail.com" className="block py-1 hover:text-white">
-            cahangirovismat@gmail.com
+          <a href={`mailto:${contact.email}`} className="block py-1 hover:text-white">
+            {contact.email}
           </a>
-          <a href="tel:+994552972759" className="block py-1 hover:text-white">
-            +994 55 297 27 59
+          <a href={telHref(contact.phone)} className="block py-1 hover:text-white">
+            {contact.phone}
           </a>
         </div>
       </div>

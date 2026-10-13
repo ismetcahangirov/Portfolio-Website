@@ -6,12 +6,8 @@ import { ArrowUpRight, Mail, Phone, MapPin } from "lucide-react";
 import { siGithub } from "simple-icons";
 import BrandIcon from "@/components/BrandIcon";
 import { getDict } from "@/app/_i18n";
+import { githubUrl, telHref } from "@/lib/contact-defaults";
 import Container from "../Container";
-
-const EMAIL = "cahangirovismat@gmail.com";
-const PHONE = "+994552972759";
-const PHONE_LABEL = "+994 55 297 27 59";
-
 
 const empty = { name: "", email: "", message: "" };
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,16 +37,18 @@ function Field({ id, label, error, textarea, ...props }) {
   );
 }
 
-export default function ContactSection({ lang }) {
+export default function ContactSection({ lang, contact }) {
   const t = getDict(lang).contact;
   const methods = [
-    { label: t.methods.email, value: EMAIL, href: `mailto:${EMAIL}`, Icon: Mail },
-    { label: t.methods.phone, value: PHONE_LABEL, href: `tel:${PHONE}`, Icon: Phone },
-    { label: t.methods.github, value: "ismetcahangirov", href: "https://github.com/ismetcahangirov", brand: siGithub },
-    { label: t.methods.location, value: t.methods.locationValue, Icon: MapPin },
+    { label: t.methods.email, value: contact.email, href: `mailto:${contact.email}`, Icon: Mail },
+    { label: t.methods.phone, value: contact.phone, href: telHref(contact.phone), Icon: Phone },
+    { label: t.methods.github, value: contact.github, href: githubUrl(contact.github), brand: siGithub },
+    { label: t.methods.location, value: contact.location[lang] || contact.location.az, Icon: MapPin },
   ];
   const [form, setForm] = useState(empty);
   const [errors, setErrors] = useState({});
+  const [company, setCompany] = useState("");
+  const [sending, setSending] = useState(false);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -58,7 +56,7 @@ export default function ContactSection({ lang }) {
     setErrors((er) => ({ ...er, [name]: "" }));
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const next = {};
     if (!form.name.trim()) next.name = t.errors.name;
@@ -68,11 +66,24 @@ export default function ContactSection({ lang }) {
       setErrors(next);
       return;
     }
-    const subject = encodeURIComponent(t.subject(form.name.trim()));
-    const body = encodeURIComponent(`${form.message.trim()}\n\n${form.name.trim()}\n${form.email.trim()}`);
-    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-    toast.success(t.toast);
-    setForm(empty);
+    setSending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, company, lang }),
+      });
+      if (res.ok) {
+        toast.success(t.toast);
+        setForm(empty);
+      } else {
+        toast.error(res.status === 429 ? t.rateLimited : t.failed);
+      }
+    } catch {
+      toast.error(t.failed);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -138,6 +149,10 @@ export default function ContactSection({ lang }) {
           >
             <p className="font-display text-[22px] font-semibold tracking-tight">{t.formTitle}</p>
             <p className="mt-1 text-[14px] text-ink/55">{t.formSub}</p>
+            <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+              <label htmlFor="company">Company</label>
+              <input id="company" name="company" tabIndex={-1} autoComplete="off" value={company} onChange={(e) => setCompany(e.target.value)} />
+            </div>
             <div className="mt-7 space-y-5">
               <Field id="name" name="name" label={t.nameLabel} autoComplete="name" value={form.name} onChange={onChange} error={errors.name} placeholder={t.namePlaceholder} />
               <Field id="email" name="email" type="email" label={t.emailLabel} autoComplete="email" value={form.email} onChange={onChange} error={errors.email} placeholder={t.emailPlaceholder} />
@@ -145,9 +160,11 @@ export default function ContactSection({ lang }) {
             </div>
             <button
               type="submit"
-              className="group mt-7 inline-flex w-full items-center justify-between gap-4 rounded-full bg-ink py-2 pl-6 pr-2 text-[15px] font-semibold text-white transition-colors hover:bg-ember"
+              disabled={sending}
+              aria-busy={sending}
+              className="group mt-7 inline-flex w-full items-center justify-between gap-4 rounded-full bg-ink py-2 pl-6 pr-2 text-[15px] font-semibold text-white transition-colors hover:bg-ember disabled:cursor-wait disabled:opacity-70"
             >
-              {t.submit}
+              {sending ? t.sending : t.submit}
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink transition-transform group-hover:translate-x-0.5">
                 <ArrowUpRight className="h-4 w-4" />
               </span>

@@ -2,6 +2,7 @@ import { Archivo, Hanken_Grotesk, JetBrains_Mono, Caveat } from "next/font/googl
 import { notFound } from "next/navigation";
 import { Toaster } from "sonner";
 import { getDict, locales, localePath } from "@/app/_i18n";
+import { getContact } from "@/lib/server/contact";
 import Header from "@/app/_components/Header";
 import Footer from "@/app/_components/Footer";
 import "../globals.css";
@@ -30,8 +31,6 @@ const caveat = Caveat({
   variable: "--font-caveat",
   display: "swap",
 });
-
-export const dynamicParams = false;
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -76,6 +75,7 @@ export default async function RootLayout({ children, params }) {
   const { lang } = await params;
   if (!locales.includes(lang)) notFound();
   const t = getDict(lang);
+  const contact = await getContact();
   return (
     <html lang={lang} className={`${archivo.variable} ${hanken.variable} ${jetbrains.variable} ${caveat.variable}`}>
       <body>
@@ -85,9 +85,9 @@ export default async function RootLayout({ children, params }) {
         >
           {t.skip}
         </a>
-        <Header lang={lang} />
+        <Header lang={lang} contact={contact} />
         {children}
-        <Footer lang={lang} />
+        <Footer lang={lang} contact={contact} />
         <Toaster position="bottom-center" theme="dark" />
       </body>
     </html>

@@ -2,8 +2,9 @@ import { ArrowUp } from "lucide-react";
 import Logo from "@/components/Logo";
 import { getDict } from "@/app/_i18n";
 import Container from "../Container";
+import { githubUrl } from "@/lib/contact-defaults";
 
-export default function Footer({ lang }) {
+export default function Footer({ lang, contact }) {
   const t = getDict(lang);
   return (
     <footer className="relative overflow-hidden bg-ink text-white">
@@ -21,7 +22,7 @@ export default function Footer({ lang }) {
             <a href="#stack" className="hover:text-white">{t.nav.stack}</a>
             <a href="#about" className="hover:text-white">{t.nav.about}</a>
             <a href="#contact" className="hover:text-white">{t.nav.contact}</a>
-            <a href="https://github.com/ismetcahangirov" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+            <a href={githubUrl(contact.github)} target="_blank" rel="noopener noreferrer" className="hover:text-white">
               GitHub
             </a>
           </nav>
