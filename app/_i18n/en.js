@@ -1,17 +1,17 @@
 const en = {
   locale: "en",
   months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-  name: "Ismat Cahangirov",
+  name: "Ismat Jahangirov",
   meta: {
-    title: "Ismat Cahangirov — Full Stack Developer",
+    title: "Ismat Jahangirov — Full Stack Developer",
     description:
       "Full stack developer from Baku. I design, build and ship web and mobile products end to end with Next.js, React Native, Node.js and PostgreSQL.",
     ogDescription: "Web and mobile products built end to end: IdeyaNest, Xira, Xeco, Docify, Minna, Cahan Academy.",
   },
   nav: { home: "Home", projects: "Projects", stack: "Stack", about: "About", contact: "Contact" },
   header: {
-    brand: "Cahangirov",
-    homeLabel: "Ismat Cahangirov, back to top",
+    brand: "Jahangirov",
+    homeLabel: "Ismat Jahangirov, back to top",
     city: "Baku, GMT+4",
     cityShort: "Baku",
     talk: "Let's talk",
@@ -112,7 +112,7 @@ const en = {
     label: "About me",
     headline: ["One developer,", "the whole product."],
     body:
-      "I'm Ismat Cahangirov, a full stack developer from Baku. I take products from an empty repository to production: the database schema, the API, the web app, the mobile app and the deploy. Every project on this page was designed, built and shipped by me.",
+      "I'm Ismat Jahangirov, a full stack developer from Baku. I take products from an empty repository to production: the database schema, the API, the web app, the mobile app and the deploy. Every project on this page was designed, built and shipped by me.",
     stats: [
       { value: "3+", label: "years shipping with the MERN stack" },
       { value: "100+", label: "students taught to code" },
