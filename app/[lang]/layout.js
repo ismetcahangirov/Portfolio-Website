@@ -44,7 +44,16 @@ export async function generateMetadata({ params }) {
     metadataBase: new URL("https://ismatjahangirov.is-a.dev"),
     title: t.meta.title,
     description: t.meta.description,
-    icons: { icon: "/logo.svg" },
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "48x48" },
+        { url: "/icon.svg", type: "image/svg+xml" },
+        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      ],
+      apple: "/apple-touch-icon.png",
+    },
+    manifest: "/manifest.webmanifest",
+    verification: { google: "Z1rCbxw22oSwp0hE2mPrm7Vrp4eLFtRmsq-GI56KhIU" },
     alternates: {
       canonical: localePath(lang),
       languages: Object.fromEntries(locales.map((l) => [l, localePath(l)])),
