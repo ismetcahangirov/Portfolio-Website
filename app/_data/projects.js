@@ -5,6 +5,11 @@ export const projects = [
     image: "/projects/ideyanest.jpg",
   },
   {
+    name: "Alievs Space",
+    href: "https://lms.alievsspace.com",
+    image: "/projects/alievs-space-lms.jpg",
+  },
+  {
     name: "Xira",
     href: "https://xira.space",
     image: "/projects/xira.jpg",

@@ -63,6 +63,12 @@ const az = {
         "Azərbaycan üçün mükafat əsaslı kütləvi maliyyələşdirmə. Müəlliflər hədəfi və son tarixi olan kampaniya yerləşdirir; kampaniya hədəfinin 80%-ini toplamasa, dəstəkçilərə pul tam qaytarılır.",
       tags: ["Veb", "iOS və Android", "Ödənişlər"],
     },
+    "Alievs Space": {
+      kind: "Tədris idarəetmə sistemi (LMS)",
+      summary:
+        "Tədris mərkəzləri üçün çoxtəşkilatlı LMS: tələbələr, ödənişlər, davamiyyət, qruplar, cədvəl, imtahanlar, ev tapşırıqları və onlayn görüşlər. Frontend hissəsini mən hazırlamışam.",
+      tags: ["Frontend", "Dashboard", "Çoxtəşkilatlı"],
+    },
     Xira: {
       kind: "Video zəng və çat",
       summary:

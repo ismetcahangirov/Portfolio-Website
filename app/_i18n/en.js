@@ -63,6 +63,12 @@ const en = {
         "Reward-based crowdfunding for Azerbaijan. Creators launch campaigns with a goal and a deadline; backers are refunded in full if a campaign misses 80% of its goal.",
       tags: ["Web", "iOS & Android", "Payments"],
     },
+    "Alievs Space": {
+      kind: "Learning management system",
+      summary:
+        "Multi-tenant LMS for training centers: students, payments, attendance, groups, schedules, exams, homework and online meetings. I built the frontend.",
+      tags: ["Frontend", "Dashboard", "Multi-tenant"],
+    },
     Xira: {
       kind: "Video calls & chat",
       summary:
