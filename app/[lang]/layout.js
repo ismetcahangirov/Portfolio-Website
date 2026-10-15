@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Toaster } from "sonner";
 import { getDict, locales, localePath } from "@/app/_i18n";
 import { getContact } from "@/lib/server/contact";
+import { githubUrl } from "@/lib/contact-defaults";
 import Header from "@/app/_components/Header";
 import Footer from "@/app/_components/Footer";
 import "../globals.css";
@@ -36,11 +37,29 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
+const SITE = "https://ismatjahangirov.is-a.dev";
+
+const personJsonLd = (lang, t, contact) => ({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${SITE}/#person`,
+  name: t.name,
+  alternateName: ["İsmət Cahangirov", "Ismat Jahangirov", "Ismet Cahangirov", "Ismat Cahangirov", "Ismet Jahangirov"].filter(
+    (n) => n !== t.name
+  ),
+  jobTitle: "Full Stack Developer",
+  url: `${SITE}${localePath(lang)}`,
+  image: `${SITE}/scene/hero-figure.png`,
+  email: `mailto:${contact.email}`,
+  address: { "@type": "PostalAddress", addressLocality: lang === "az" ? "Bakı" : "Baku", addressCountry: "AZ" },
+  sameAs: [githubUrl(contact.github)],
+});
+
 export async function generateMetadata({ params }) {
   const { lang } = await params;
   const t = getDict(lang);
   return {
-    metadataBase: new URL("https://ismatjahangirov.is-a.dev"),
+    metadataBase: new URL(SITE),
     title: t.meta.title,
     description: t.meta.description,
     icons: {
@@ -79,6 +98,12 @@ export default async function RootLayout({ children, params }) {
   return (
     <html lang={lang} className={`${archivo.variable} ${hanken.variable} ${jetbrains.variable} ${caveat.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(personJsonLd(lang, t, contact)).replace(/</g, "\\u003c"),
+          }}
+        />
         <a
           href="#projects"
           className="sr-only z-[60] rounded-full bg-ink px-4 py-2 text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"

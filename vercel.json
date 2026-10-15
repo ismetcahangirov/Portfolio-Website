@@ -1,4 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "regions": ["fra1"]
+  "regions": ["fra1"],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "ismatcahangirov.vercel.app" }],
+      "destination": "https://ismatjahangirov.is-a.dev/:path*",
+      "permanent": true
+    }
+  ]
 }
