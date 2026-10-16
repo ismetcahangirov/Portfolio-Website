@@ -69,6 +69,12 @@ const az = {
         "Tədris mərkəzləri üçün çoxtəşkilatlı LMS: tələbələr, ödənişlər, davamiyyət, qruplar, cədvəl, imtahanlar, ev tapşırıqları və onlayn görüşlər. Frontend hissəsini mən hazırlamışam.",
       tags: ["Frontend", "Dashboard", "Çoxtəşkilatlı"],
     },
+    Mebline: {
+      kind: "Mebel mağazası saytı",
+      summary:
+        "Ofis mebeli və interyer həlləri şirkəti üçün WordPress və WooCommerce üzərində sıfırdan yazılmış xüsusi tema: kateqoriya vitrini, məhsul kataloqu və təklif sorğusu.",
+      tags: ["WordPress", "WooCommerce", "Xüsusi tema"],
+    },
     Xira: {
       kind: "Video zəng və çat",
       summary:

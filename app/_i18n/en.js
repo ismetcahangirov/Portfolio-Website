@@ -69,6 +69,12 @@ const en = {
         "Multi-tenant LMS for training centers: students, payments, attendance, groups, schedules, exams, homework and online meetings. I built the frontend.",
       tags: ["Frontend", "Dashboard", "Multi-tenant"],
     },
+    Mebline: {
+      kind: "Furniture store website",
+      summary:
+        "A custom WordPress and WooCommerce theme built from scratch for an office furniture and interior company: category showcase, product catalog and quote requests.",
+      tags: ["WordPress", "WooCommerce", "Custom theme"],
+    },
     Xira: {
       kind: "Video calls & chat",
       summary:
