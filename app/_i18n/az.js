@@ -72,8 +72,8 @@ const az = {
     Mebline: {
       kind: "Mebel mağazası saytı",
       summary:
-        "Ofis mebeli və interyer həlləri şirkəti üçün WordPress və WooCommerce üzərində sıfırdan yazılmış xüsusi tema: kateqoriya vitrini, məhsul kataloqu və təklif sorğusu.",
-      tags: ["WordPress", "WooCommerce", "Xüsusi tema"],
+        "Ofis mebeli və interyer həlləri şirkəti üçün sıfırdan hazırlanmış sayt: kateqoriya vitrini, məhsul kataloqu və təklif sorğusu.",
+      tags: ["Veb", "E-ticarət", "Xüsusi dizayn"],
     },
     Xira: {
       kind: "Video zəng və çat",

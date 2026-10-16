@@ -72,8 +72,8 @@ const en = {
     Mebline: {
       kind: "Furniture store website",
       summary:
-        "A custom WordPress and WooCommerce theme built from scratch for an office furniture and interior company: category showcase, product catalog and quote requests.",
-      tags: ["WordPress", "WooCommerce", "Custom theme"],
+        "A website built from scratch for an office furniture and interior company: category showcase, product catalog and quote requests.",
+      tags: ["Web", "E-commerce", "Custom design"],
     },
     Xira: {
       kind: "Video calls & chat",
