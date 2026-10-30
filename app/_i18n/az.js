@@ -70,10 +70,10 @@ const az = {
       tags: ["Frontend", "Dashboard", "Çoxtəşkilatlı"],
     },
     Mebline: {
-      kind: "Mebel mağazası saytı",
+      kind: "Mebel şirkəti saytı",
       summary:
-        "Ofis mebeli və interyer həlləri şirkəti üçün sıfırdan hazırlanmış sayt: kateqoriya vitrini, məhsul kataloqu və təklif sorğusu.",
-      tags: ["Veb", "E-ticarət", "Xüsusi dizayn"],
+        "Ofis mebeli şirkəti üçün sıfırdan hazırladığım full stack sayt: üç dildə məhsul kataloqu, layihələr, vakansiyalar və təklif sorğusu. Hamısı saytın öz admin panelindən idarə olunur.",
+      tags: ["Full Stack", "Admin panel", "Çoxdilli"],
     },
     Xira: {
       kind: "Video zəng və çat",

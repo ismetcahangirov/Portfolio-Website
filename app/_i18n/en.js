@@ -70,10 +70,10 @@ const en = {
       tags: ["Frontend", "Dashboard", "Multi-tenant"],
     },
     Mebline: {
-      kind: "Furniture store website",
+      kind: "Furniture company website",
       summary:
-        "A website built from scratch for an office furniture and interior company: category showcase, product catalog and quote requests.",
-      tags: ["Web", "E-commerce", "Custom design"],
+        "A full-stack site I built from scratch for an office furniture company: a product catalog in three languages, projects, vacancies and quote requests, all managed from its own admin panel.",
+      tags: ["Full Stack", "Admin panel", "Multilingual"],
     },
     Xira: {
       kind: "Video calls & chat",
