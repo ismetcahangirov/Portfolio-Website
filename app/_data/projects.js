@@ -10,6 +10,11 @@ export const projects = [
     image: "/projects/alievs-space-lms.jpg",
   },
   {
+    name: "Alievs Space Studio",
+    href: "https://alievsspace.com",
+    image: "/projects/alievs-space.jpg",
+  },
+  {
     name: "Mebline",
     href: "https://mebline.az",
     image: "/projects/mebline.jpg",

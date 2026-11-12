@@ -69,6 +69,12 @@ const az = {
         "Tədris mərkəzləri üçün çoxtəşkilatlı LMS: tələbələr, ödənişlər, davamiyyət, qruplar, cədvəl, imtahanlar, ev tapşırıqları və onlayn görüşlər. Frontend hissəsini mən hazırlamışam.",
       tags: ["Frontend", "Dashboard", "Çoxtəşkilatlı"],
     },
+    "Alievs Space Studio": {
+      kind: "Proqram studiyasının saytı və CRM",
+      summary:
+        "Veb və mobil tətbiqlər hazırlayan studiyanın saytı: xidmətlər, paketlər və qiymətlər, keyslər və təklif sorğusu. Saytın frontend-ini və CRM panelini mən hazırlamışam.",
+      tags: ["Frontend", "CRM panel", "Çoxdilli"],
+    },
     Mebline: {
       kind: "Mebel şirkəti saytı",
       summary:

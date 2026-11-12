@@ -69,6 +69,12 @@ const en = {
         "Multi-tenant LMS for training centers: students, payments, attendance, groups, schedules, exams, homework and online meetings. I built the frontend.",
       tags: ["Frontend", "Dashboard", "Multi-tenant"],
     },
+    "Alievs Space Studio": {
+      kind: "Software studio website & CRM",
+      summary:
+        "Website for a studio that builds web and mobile apps: services, packages and pricing, case studies and quote requests. I built the site's frontend and its CRM panel.",
+      tags: ["Frontend", "CRM panel", "Multilingual"],
+    },
     Mebline: {
       kind: "Furniture company website",
       summary:
