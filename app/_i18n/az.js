@@ -63,17 +63,17 @@ const az = {
         "Azərbaycan üçün mükafat əsaslı kütləvi maliyyələşdirmə. Müəlliflər hədəfi və son tarixi olan kampaniya yerləşdirir; kampaniya hədəfinin 80%-ini toplamasa, dəstəkçilərə pul tam qaytarılır.",
       tags: ["Veb", "iOS və Android", "Ödənişlər"],
     },
-    "Alievs Space": {
+    "Alievs Space LMS": {
       kind: "Tədris idarəetmə sistemi (LMS)",
       summary:
         "Tədris mərkəzləri üçün çoxtəşkilatlı LMS: tələbələr, ödənişlər, davamiyyət, qruplar, cədvəl, imtahanlar, ev tapşırıqları və onlayn görüşlər. Frontend hissəsini mən hazırlamışam.",
       tags: ["Frontend", "Dashboard", "Çoxtəşkilatlı"],
     },
-    "Alievs Space Studio": {
-      kind: "Proqram studiyasının saytı və CRM",
+    "Alievs Space": {
+      kind: "Korporativ sayt və CRM sistemi",
       summary:
-        "Veb və mobil tətbiqlər hazırlayan studiyanın saytı: xidmətlər, paketlər və qiymətlər, keyslər və təklif sorğusu. Saytın frontend-ini və CRM panelini mən hazırlamışam.",
-      tags: ["Frontend", "CRM panel", "Çoxdilli"],
+        "Proqram təminatı şirkətinin 10 dildə fəaliyyət göstərən korporativ saytı. Xidmətlər, qiymət paketləri, keyslər və təklif sorğusu bir məhsulda birləşir. Saytın frontend arxitekturasını və daxili CRM panelini hazırlamışam.",
+      tags: ["Frontend", "CRM", "10 dil"],
     },
     Mebline: {
       kind: "Mebel şirkəti saytı",

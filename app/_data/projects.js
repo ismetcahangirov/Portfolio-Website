@@ -5,12 +5,12 @@ export const projects = [
     image: "/projects/ideyanest.jpg",
   },
   {
-    name: "Alievs Space",
+    name: "Alievs Space LMS",
     href: "https://lms.alievsspace.com",
     image: "/projects/alievs-space-lms.jpg",
   },
   {
-    name: "Alievs Space Studio",
+    name: "Alievs Space",
     href: "https://alievsspace.com",
     image: "/projects/alievs-space.jpg",
   },

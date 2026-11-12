@@ -63,17 +63,17 @@ const en = {
         "Reward-based crowdfunding for Azerbaijan. Creators launch campaigns with a goal and a deadline; backers are refunded in full if a campaign misses 80% of its goal.",
       tags: ["Web", "iOS & Android", "Payments"],
     },
-    "Alievs Space": {
+    "Alievs Space LMS": {
       kind: "Learning management system",
       summary:
         "Multi-tenant LMS for training centers: students, payments, attendance, groups, schedules, exams, homework and online meetings. I built the frontend.",
       tags: ["Frontend", "Dashboard", "Multi-tenant"],
     },
-    "Alievs Space Studio": {
-      kind: "Software studio website & CRM",
+    "Alievs Space": {
+      kind: "Corporate website & CRM",
       summary:
-        "Website for a studio that builds web and mobile apps: services, packages and pricing, case studies and quote requests. I built the site's frontend and its CRM panel.",
-      tags: ["Frontend", "CRM panel", "Multilingual"],
+        "Corporate website for a software development company, available in 10 languages. Services, pricing packages, case studies and quote requests come together in one product. I built the frontend architecture and the internal CRM panel.",
+      tags: ["Frontend", "CRM", "10 languages"],
     },
     Mebline: {
       kind: "Furniture company website",
