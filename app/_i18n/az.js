@@ -60,13 +60,13 @@ const az = {
     IdeyaNest: {
       kind: "Kraudfandinq platforması",
       summary:
-        "Azərbaycan üçün mükafat əsaslı kütləvi maliyyələşdirmə. Müəlliflər hədəfi və son tarixi olan kampaniya yerləşdirir; kampaniya hədəfinin 80%-ini toplamasa, dəstəkçilərə pul tam qaytarılır.",
+        "Azərbaycan üçün mükafat əsaslı kraudfandinq platforması: veb, iOS və Android. Müəlliflər məbləğ hədəfi və son tarixi olan kampaniyalar yaradır; kampaniya hədəfin 80%-inə çatmadıqda vəsait dəstəkçilərə tam həcmdə qaytarılır.",
       tags: ["Veb", "iOS və Android", "Ödənişlər"],
     },
     "Alievs Space LMS": {
       kind: "Tədris idarəetmə sistemi (LMS)",
       summary:
-        "Tədris mərkəzləri üçün çoxtəşkilatlı LMS: tələbələr, ödənişlər, davamiyyət, qruplar, cədvəl, imtahanlar, ev tapşırıqları və onlayn görüşlər. Frontend hissəsini mən hazırlamışam.",
+        "Tədris mərkəzləri üçün çoxtəşkilatlı tədris idarəetmə sistemi. Tələbələr, ödənişlər, davamiyyət, qruplar, cədvəl, imtahanlar, ev tapşırıqları və onlayn görüşlər vahid platformadan idarə olunur. Platformanın frontend hissəsini hazırlamışam.",
       tags: ["Frontend", "Dashboard", "Çoxtəşkilatlı"],
     },
     "Alievs Space": {
@@ -76,38 +76,39 @@ const az = {
       tags: ["Frontend", "CRM", "10 dil"],
     },
     Mebline: {
-      kind: "Mebel şirkəti saytı",
+      kind: "Korporativ sayt və admin panel",
       summary:
-        "Ofis mebeli şirkəti üçün sıfırdan hazırladığım full stack sayt: üç dildə məhsul kataloqu, layihələr, vakansiyalar və təklif sorğusu. Hamısı saytın öz admin panelindən idarə olunur.",
+        "Ofis mebeli şirkətinin üç dildə fəaliyyət göstərən korporativ saytı. Məhsul kataloqu, layihələr, vakansiyalar və təklif sorğuları xüsusi admin paneldən idarə olunur. Full stack həlli sıfırdan hazırlamışam.",
       tags: ["Full Stack", "Admin panel", "Çoxdilli"],
     },
     Xira: {
-      kind: "Video zəng və çat",
+      kind: "Mesajlaşma və video zəng",
       summary:
-        "Canlı onlayn statusu və bir toxunuşla video zəngi olan real-time mesajlaşma. Telefon nömrəsi əvəzinə nikneym ilə işləyir.",
+        "Canlı onlayn statusu və bir toxunuşla video zəng imkanı olan real-time mesajlaşma tətbiqi. İstifadəçilər telefon nömrəsi əvəzinə nikneym ilə əlaqə qurur.",
       tags: ["Real-time", "Video", "Çat"],
     },
     Xeco: {
-      kind: "Kreatorlarla canlı zənglər",
+      kind: "Kreator yayım platforması",
       summary:
-        "Kreatorlar canlı yayına çıxır və izləyicilərlə təkbətək video zəng edir. Real-time çat və dəstək üçün göndərilən coinlər var.",
+        "Kreatorların canlı yayına çıxdığı və izləyicilərlə təkbətək video zəng etdiyi platforma. Real-time çat və coin sistemi izləyicilərə kreatorları birbaşa dəstəkləmək imkanı verir.",
       tags: ["Video zəng", "Coinlər", "Real-time"],
     },
     "Cahan Academy": {
-      kind: "Akademiya paneli",
+      kind: "Akademiya idarəetmə sistemi",
       summary:
-        "Akademiyanın idarəetmə paneli: müəllimlər, tələbələr, kurslar, davamiyyət, ev tapşırıqları, imtahanlar, quizlər və cədvəl bir yerdə.",
+        "Akademiya üçün idarəetmə paneli. Müəllimlər, tələbələr, kurslar, davamiyyət, ev tapşırıqları, imtahanlar, quizlər və cədvəl rol əsaslı girişlə vahid interfeysdən idarə olunur.",
       tags: ["Dashboard", "Rollar", "Çoxdilli"],
     },
     Docify: {
-      kind: "Fayl konvertoru",
+      kind: "Brauzerdaxili fayl konvertoru",
       summary:
-        "Şəkil, video, audio və PDF fayllarını tamamilə brauzerin içində çevirir. Fayl serverə yüklənmir, qeydiyyat və ölçü limiti yoxdur.",
+        "Şəkil, video, audio və PDF fayllarını tamamilə brauzerdə çevirən konvertor. Fayllar cihazdan kənara çıxmır; qeydiyyat və ölçü limiti yoxdur.",
       tags: ["Məxfilik", "Media", "PDF"],
     },
     Minna: {
-      kind: "Anime yayımı",
-      summary: "Trenddə olan, populyar və ən yüksək reytinqli animeləri sevimlilər, bloqlar və icma bölməsi ilə yayımlayır.",
+      kind: "Anime yayım platforması",
+      summary:
+        "Trenddə olan, populyar və ən yüksək reytinqli animeləri təqdim edən yayım platforması. İstifadəçi hesabları, sevimlilər siyahısı, bloqlar və icma bölməsi var.",
       tags: ["Streaming", "Hesablar", "İcma"],
     },
   },

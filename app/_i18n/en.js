@@ -60,13 +60,13 @@ const en = {
     IdeyaNest: {
       kind: "Crowdfunding platform",
       summary:
-        "Reward-based crowdfunding for Azerbaijan. Creators launch campaigns with a goal and a deadline; backers are refunded in full if a campaign misses 80% of its goal.",
+        "A reward-based crowdfunding platform for Azerbaijan, available on the web, iOS and Android. Creators launch campaigns with a funding goal and a deadline, and backers receive a full refund if a campaign falls short of 80% of its goal.",
       tags: ["Web", "iOS & Android", "Payments"],
     },
     "Alievs Space LMS": {
       kind: "Learning management system",
       summary:
-        "Multi-tenant LMS for training centers: students, payments, attendance, groups, schedules, exams, homework and online meetings. I built the frontend.",
+        "A multi-tenant learning management system for training centers. Students, payments, attendance, groups, schedules, exams, homework and online meetings are managed from a single platform. I built the platform's frontend.",
       tags: ["Frontend", "Dashboard", "Multi-tenant"],
     },
     "Alievs Space": {
@@ -76,38 +76,39 @@ const en = {
       tags: ["Frontend", "CRM", "10 languages"],
     },
     Mebline: {
-      kind: "Furniture company website",
+      kind: "Corporate website & admin panel",
       summary:
-        "A full-stack site I built from scratch for an office furniture company: a product catalog in three languages, projects, vacancies and quote requests, all managed from its own admin panel.",
+        "A corporate website for an office furniture company, available in three languages. The product catalog, projects, vacancies and quote requests are all managed through a custom admin panel. I built the full-stack solution from scratch.",
       tags: ["Full Stack", "Admin panel", "Multilingual"],
     },
     Xira: {
-      kind: "Video calls & chat",
+      kind: "Messaging & video calls",
       summary:
-        "Real-time messaging with live presence and one-tap video calls between friends, built around nicknames instead of phone numbers.",
+        "A real-time messaging app with live presence and one-tap video calls. Users connect by nickname rather than phone number.",
       tags: ["Real-time", "Video", "Chat"],
     },
     Xeco: {
-      kind: "Live creator calls",
+      kind: "Creator live-streaming platform",
       summary:
-        "Creators go live and take one-on-one video calls with fans, with real-time chat and coins that fans send to support them.",
+        "A platform where creators go live and host one-on-one video calls with their audience. Real-time chat and a coin system let fans support creators directly.",
       tags: ["Video calls", "Coins", "Real-time"],
     },
     "Cahan Academy": {
-      kind: "Academy dashboard",
+      kind: "Academy management system",
       summary:
-        "Management dashboard for an academy: teachers, students, courses, attendance, homework, exams, quizzes and schedules in one place.",
+        "A management dashboard for an academy. Teachers, students, courses, attendance, homework, exams, quizzes and schedules are handled from a single interface with role-based access.",
       tags: ["Dashboard", "Roles", "Multilingual"],
     },
     Docify: {
-      kind: "File converter",
+      kind: "In-browser file converter",
       summary:
-        "Converts images, video, audio and PDFs entirely inside the browser. No uploads, no sign-up and no file size limit.",
+        "A converter for images, video, audio and PDFs that runs entirely in the browser. Files never leave the device, with no sign-up and no file size limits.",
       tags: ["Privacy-first", "Media", "PDF"],
     },
     Minna: {
-      kind: "Anime streaming",
-      summary: "Streams trending, popular and top-rated anime with favorites, blogs and a community space.",
+      kind: "Anime streaming platform",
+      summary:
+        "A streaming platform for trending, popular and top-rated anime. User accounts come with favorites, alongside blogs and a community section.",
       tags: ["Streaming", "Accounts", "Community"],
     },
   },
